@@ -1,0 +1,8 @@
+date base tpo send 
+
+res.end and res.writer   using node js 
+res.send   exprese js 
+
+res.jons send jesan data 
+
+in Express.js   both res.send() and res.json() send response to the client and end the request-response cycle , but res.json() is specifically designed for sending JSON data ,while res.send() is ad 
