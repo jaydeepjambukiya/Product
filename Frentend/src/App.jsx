@@ -5,6 +5,7 @@ import Product from "./Pages/Product";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Profile from "./components/Profile";
+import ChangePassword from './Pages/ChangePassword';
 
 // 1. Define Layout locally (since it is not in your file tree)
 // Use <Outlet /> to render the child route (like Product) inside the layout
@@ -42,7 +43,11 @@ function App() {
         {
           path: "/profile",
           element: <Profile />,
-        }
+        },
+        {
+          path: "/change-password",
+          element: <ChangePassword />,
+        },
       ],
     },
   ]);

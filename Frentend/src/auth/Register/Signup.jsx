@@ -1,21 +1,46 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Signup = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (e) => {
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert("Registration Successful 🎉");
+
+    try {
+      const res = await fetch("http://localhost:5000/api/user/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({ name, email, password }),
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        alert("Registration Successful 🎉");
+        navigate("/"); // login page
+      } else {
+        alert(data.message || "Registration failed");
+      }
+    } catch (error) {
+      console.log(error);
+      alert("Server error");
+    }
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 dark:from-gray-900 dark:to-gray-800">
-      
-      <form className="w-full max-w-sm bg-white dark:bg-gray-900 p-8 rounded-2xl shadow-2xl animate-fade">
-        
+      <form
+        onSubmit={handleSubmit}
+        className="w-full max-w-sm bg-white dark:bg-gray-900 p-8 rounded-2xl shadow-2xl animate-fade"
+      >
         <h2 className="text-3xl font-bold text-center text-gray-800 dark:text-white mb-6">
           Create Account ✨
         </h2>
@@ -64,7 +89,7 @@ const Signup = () => {
 
         {/* Button */}
         <button
-          onClick={handleSubmit}
+          type="submit"
           className="w-full py-2 text-white font-semibold rounded-lg bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 hover:scale-105 transition-transform duration-300"
         >
           Register 🚀
@@ -77,7 +102,6 @@ const Signup = () => {
             Login
           </Link>
         </p>
-
       </form>
     </div>
   );
