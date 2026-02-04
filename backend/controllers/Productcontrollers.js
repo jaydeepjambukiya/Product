@@ -3,13 +3,14 @@ const Product = require("../models/ProductSchema");
 // CREATE PRODUCT
 const createProduct = async (req, res) => {
   try {
-    const product = new Product(req.body);
-    const newProduct = await product.save();
+    const data = Array.isArray(req.body)
+      ? await Product.insertMany(req.body)
+      : await Product.create(req.body);
 
     res.status(201).json({
       success: true,
-      message: "Product created successfully",
-      data: newProduct
+      count: Array.isArray(data) ? data.length : 1,
+      data
     });
   } catch (error) {
     res.status(400).json({
@@ -19,6 +20,7 @@ const createProduct = async (req, res) => {
     });
   }
 };
+
 //
 
 // GET ALL PRODUCTS
